@@ -3,7 +3,8 @@ Simple demo of a 1D cellular automaton evolving accordeing to Rule 90
 Built in bash because why not
 
 
-#Description
+# Description
+
 In the mathematical study of cellular automata, Rule 90 is an elementary cellular automaton based on the exclusive or function. It consists of a one-dimensional array of cells, each of which can hold either a 0 or a 1 value. In each time step all values are simultaneously replaced by the exclusive or of their two neighboring values.
 
 When started from a single live cell, Rule 90 has a time-space diagram in the form of a Sierpiński triangle. The behavior of any other configuration can be explained as a superposition of copies of this pattern, combined using the exclusive or function. Any configuration with only finitely many nonzero cells becomes a replicator that eventually fills the array with copies of itself. When Rule 90 is started from a random initial configuration, its configuration remains random at each time step. Its time-space diagram forms many triangular "windows" of different sizes, patterns that form when a consecutive row of cells becomes simultaneously zero and then cells with value 1 gradually move into this row from both ends. 
