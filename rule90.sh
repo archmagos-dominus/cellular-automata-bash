@@ -1,36 +1,42 @@
 #! /bin/bash
 
 # initialize arrays and counter
-cell=(0 0 0 0 1 0 0 0 0 0)
-tmp=(0 0 0 0 0 0 0 0 0 0)
+cell=(0 0 0 0 1 0 0 0 0 0 1)  # modify this to change the initial state of the automaton
+tmp=(0 0 0 0 0 0 0 0 0 0 0)   # output array; make sure it's the same size as your initial state array
 i=0
+steps=20     # modify this to change the number of steps
 
 # print initial cell array to screen
 echo ${cell[@]}
 
 #main loop
-until [ $i -eq 15 ]     # modify this to change the number of steps
+until [ $i -eq $steps ]
 do
     for (( j=0; j<${#cell[@]}; j++ ))   # read every cell state in the array
     do
+        #Define rules:
+        #if both neighbouring cells are pupulated, then the current cell dies from overcrowding
+        #if either cells on the side are populated, then the cell becomes alive
+        #if no cells on the side are populated, then the cell stays dead
+
         if [ $j -eq 0 ] # special rule for the first cell to make the "play area" loop around
             then
-            if [ ${cell[9]} == 1 ] && [ ${cell[1]} == 1 ]
+            if [ ${cell[-1]} == 1 ] && [ ${cell[1]} == 1 ]
                 then tmp[0]=0
-            elif [ ${cell[9]} == 1 ] && [ ${cell[1]} == 0 ]
+            elif [ ${cell[-1]} == 1 ] && [ ${cell[1]} == 0 ]
                 then tmp[0]=1
-            elif [ ${cell[9]} == 0 ] && [ ${cell[1]} == 1 ]
+            elif [ ${cell[-1]} == 0 ] && [ ${cell[1]} == 1 ]
                 then tmp[0]=1
             else tmp[0]=0
             fi
-        elif [ $j -eq 9 ]   # special rule for the last cell to make the "play area" loop around
-            then if [ ${cell[8]} == 1 ] && [ ${cell[0]} == 1 ]
-                then tmp[9]=0
-                elif [ ${cell[8]} == 1 ] && [ ${cell[0]} == 0 ]
-                then tmp[9]=1
-                elif [ ${cell[8]} == 0 ] && [ ${cell[0]} == 1 ]
-                then tmp[9]=1
-                else tmp[9]=0
+        elif [ $j -eq $((${#cell[@]}-1)) ]   # special rule for the last cell to make the "play area" loop around
+            then if [ ${cell[-2]} == 1 ] && [ ${cell[0]} == 1 ]
+                then tmp[-1]=0
+                elif [ ${cell[-2]} == 1 ] && [ ${cell[0]} == 0 ]
+                then tmp[-1]=1
+                elif [ ${cell[-2]} == 0 ] && [ ${cell[0]} == 1 ]
+                then tmp[-1]=1
+                else tmp[-1]=0
             fi
         else    # main rules for the cell states (XOR)
             if [ ${cell[$j-1]} == 1 ] && [ ${cell[$j+1]} == 1 ]
